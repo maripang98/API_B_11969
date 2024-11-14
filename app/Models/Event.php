@@ -4,21 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class Event extends Model
 {
-    use HasFactory, HasApiTokens;
+    use HasFactory;
 
     public $timestamps = false;
-    protected $table = "users";
+    protected $table = "events";
     protected $primaryKey = "id";
 
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'nama_event',
+        'deskripsi',
+        'tanggal_mulai',
+        'tanggal_selesai',
+        'lokasi',
+        'id_user'
     ];
 
     public function peserta()

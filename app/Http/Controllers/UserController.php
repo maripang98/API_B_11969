@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function index(){
+        $user = User::all();
+        return response()->json($user);
+    }
     public function register(Request $request)
     {
         // Validasi
@@ -56,5 +60,45 @@ class UserController extends Controller
             'detail' => $user,
             'token' => $token
         ]);
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User tidak ditemukan'], 403);
+        }
+
+        $validatedData = $request->validate([
+            "name"=> "required|string|max:255",
+            "email"=> "required|string|email|max:255|unique:users",
+            "password"=> "required|string|min:8",
+        ]);
+
+        $user->update($validatedData);
+
+        return response()->json([
+            'message' => 'Berhasil mengupdate User',
+            'post' => $user,
+        ], 201);
+    }
+
+    public function destroy(string $id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User tidak ditemukan'], 403);
+        }
+
+        $user->delete();
+
+        return response()->json(['message' => 'User berhasil di hapus.']);
+    }
+
+    public function logout(Request $request){
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(['message' => 'Logged out successfully.'], 200);
     }
 }

@@ -73,6 +73,16 @@ class EventController extends Controller
         return response()->json($event);
     }
 
+    public function search($nama_event)
+    {
+        $results = Event::where('nama_event', 'like', '%' . $nama_event . '%')->get();
+
+        if ($results->isEmpty()) {
+            return response()->json(['message' => 'Nama event gk ada'], 404);
+        }
+        return response()->json($results);
+    }
+
     /**
      * Remove the specified resource from storage.
      */

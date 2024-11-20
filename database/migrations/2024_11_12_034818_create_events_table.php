@@ -13,8 +13,8 @@ class CreateEventsTable extends Migration
             $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
             $table->string('nama_event', 255);
             $table->string('deskripsi', 255);
-            $table->string('tanggal_mulai', 255);
-            $table->string('tanggal_selesai', 255);
+            $table->dateTime('tanggal_mulai');
+            $table->dateTime('tanggal_selesai');
             $table->string('lokasi', 255);
             $table->timestamps();
         });
